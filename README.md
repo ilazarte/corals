@@ -1,0 +1,1 @@
+Simple project to scrape some prices from yahoo and potentially execute simple studies on them.

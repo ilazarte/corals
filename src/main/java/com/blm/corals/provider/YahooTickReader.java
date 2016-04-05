@@ -90,6 +90,11 @@ public class YahooTickReader {
 		Date prevTimestamp = null;
 		int lineNum = 0;
 		
+		if (lines == null || lines.size() == 0) {
+			errors.add(new ReadError(ReadErrorType.NO_DATA));
+			return new PriceData(ticks, errors);
+		}
+		
 		boolean start = false;
 
 		for (String line : lines) {

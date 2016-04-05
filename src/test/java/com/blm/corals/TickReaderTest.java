@@ -9,34 +9,54 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.blm.corals.loader.FileURLLoader;
+import com.blm.corals.provider.YahooTickReader;
 
 public class TickReaderTest {
 
 	@Test
-	public void readHistorical() {
+	public void readDaily() {
 
-		FileURLLoader ful = new FileURLLoader();
+		TestLoader tl = new TestLoader();
 		String fileurl = asFileURL("src/test/resources/yahoo-daily.cache");
-		List<String> lines = ful.load(fileurl);
+		List<String> lines = tl.file(fileurl);
 		
 		YahooTickReader yahooTickReader = new YahooTickReader();
-		List<Tick> historical = yahooTickReader.historical(lines);
+		PriceData priceData = yahooTickReader.daily(lines);
+		List<Tick> historical = priceData.getTicks();
 		
 		Assert.assertNotNull(historical);
+		Assert.assertEquals(0, priceData.getErrors().size());
+	}
+	
+	@Test
+	public void readDailyOrderError() {
+
+		TestLoader tl = new TestLoader();
+		String fileurl = asFileURL("src/test/resources/yahoo-daily-order-error.cache");
+		List<String> lines = tl.file(fileurl);
+		
+		YahooTickReader yahooTickReader = new YahooTickReader();
+		PriceData priceData = yahooTickReader.daily(lines);
+		List<Tick> historical = priceData.getTicks();
+		
+		Assert.assertNotNull(historical);
+		Assert.assertEquals(1, priceData.getErrors().size());
+		Assert.assertEquals(ReadErrorType.DATE_ORDER, priceData.getErrors().get(0).getType());
 	}
 	
 	@Test
 	public void readIntraday() {
 
-		FileURLLoader ful = new FileURLLoader();
+		TestLoader tl = new TestLoader();
 		String fileurl = asFileURL("src/test/resources/yahoo-intraday.cache");
-		List<String> lines = ful.load(fileurl);
+		List<String> lines = tl.file(fileurl);
 			
 		YahooTickReader yahooTickReader = new YahooTickReader();
-		List<Tick> intraday = yahooTickReader.intraday(lines);
+		PriceData priceData = yahooTickReader.intraday(lines);
+		List<Tick> intraday = priceData.getTicks();
 		
 		Assert.assertNotNull(intraday);
+		Assert.assertEquals(0, priceData.getErrors().size());
 	}
 	
 	private String asFileURL(String path) {

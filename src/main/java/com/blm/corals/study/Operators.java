@@ -117,6 +117,12 @@ public class Operators {
 		}
 	}
 
+	/**
+	 * From a starting index, return values.
+	 * @param ds
+	 * @param start
+	 * @return
+	 */
 	public List<Double> range(List<Double> ds, int start) {
 		List<Double> res = new ArrayList<Double>();
 		for (int i = 0; i < ds.size(); i++) {
@@ -127,6 +133,12 @@ public class Operators {
 		return res;
 	}
 
+	/**
+	 * First num values from the list.
+	 * @param ds
+	 * @param num
+	 * @return
+	 */
 	public List<Double> first(List<Double> ds, int num) {
 		List<Double> res = new ArrayList<Double>();
 		for (int i = 0; i < num; i++) {
@@ -135,6 +147,12 @@ public class Operators {
 		return res;
 	}
 	
+	/**
+	 * Last num values from the list.
+	 * @param ds
+	 * @param num
+	 * @return
+	 */
 	public List<Double> last(List<Double> ds, int num) {
 		List<Double> res = new ArrayList<Double>();
 		int start = ds.size() - num;

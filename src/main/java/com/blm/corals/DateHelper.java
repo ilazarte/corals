@@ -3,6 +3,11 @@ package com.blm.corals;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Simple date operations
+ * @author perico
+ *
+ */
 public class DateHelper {
 
 	public Date midnight() {
@@ -51,6 +56,10 @@ public class DateHelper {
 		return cal.get(Calendar.YEAR);
 	}
 	
+	public boolean before(Date ts1, Date ts2) {
+		return ts1.compareTo(ts2) < 0;
+	}
+
 	private Calendar cal(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);

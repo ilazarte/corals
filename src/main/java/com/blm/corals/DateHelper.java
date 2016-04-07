@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Simple date operations
+ * Simple immutabe date operations
  * @author perico
  *
  */
@@ -54,6 +54,10 @@ public class DateHelper {
 	public int year(Date date) {
 		Calendar cal = cal(date);
 		return cal.get(Calendar.YEAR);
+	}
+	
+	public Date copy(Date date) {
+		return new Date(date.getTime());
 	}
 	
 	public boolean before(Date ts1, Date ts2) {

@@ -15,9 +15,15 @@ import com.blm.corals.Tick;
 
 public class YahooTickReader {
 
-	private DateHelper dateHelper = new DateHelper();
+	private static final String STR_000_PAD = "000";
+	private static final String STR_ADJCLOSE = "adjclose";
+	private static final String STR_VOLUME = "volume";
+	private static final String STR_OPEN = "open";
+	private static final String STR_LOW = "low";
+	private static final String STR_HIGH = "high";
+	private static final String STR_CLOSE = "close";
+	private static final String DATE_FORMAT_STR = "yyyy-MM-dd";
 	
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/**
 	 * Parse the list of lines for the daily/historical format.
@@ -25,7 +31,8 @@ public class YahooTickReader {
 	 * @return
 	 */
 	public PriceData daily(List<String> lines) {
-		
+		DateHelper dateHelper = new DateHelper();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STR);
 		List<Tick> ticks = new ArrayList<Tick>();
 		List<ReadError> errors = new ArrayList<ReadError>();
 		Date prevTimestamp = null;		
@@ -55,14 +62,14 @@ public class YahooTickReader {
 					lineError = true;
 				}
 			}
-			prevTimestamp = tick.getTimestamp();
+			prevTimestamp = dateHelper.copy(tick.getTimestamp());
 			
 			try {
-				tick.set("high", Double.parseDouble(split[2]));
-				tick.set("low", Double.parseDouble(split[3]));
-				tick.set("close", Double.parseDouble(split[4]));
-				tick.set("volume", Double.parseDouble(split[5]));
-				tick.set("adjclose", Double.parseDouble(split[6]));
+				tick.set(STR_HIGH, Double.parseDouble(split[2]));
+				tick.set(STR_LOW, Double.parseDouble(split[3]));
+				tick.set(STR_CLOSE, Double.parseDouble(split[4]));
+				tick.set(STR_VOLUME, Double.parseDouble(split[5]));
+				tick.set(STR_ADJCLOSE, Double.parseDouble(split[6]));
 			} catch (RuntimeException e) {
 				errors.add(new ReadError(lineNum, ReadErrorType.PRICE_PARSE));
 				lineError = true;
@@ -85,6 +92,7 @@ public class YahooTickReader {
 	 */
 	public PriceData intraday(List<String> lines) {
 		
+		DateHelper dateHelper = new DateHelper();
 		List<Tick> ticks = new ArrayList<Tick>();
 		List<ReadError> errors = new ArrayList<ReadError>();
 		Date prevTimestamp = null;
@@ -108,7 +116,7 @@ public class YahooTickReader {
 				
 				Date date = new Date();
 				try {
-					date.setTime(Long.parseLong(split[0] + "000"));
+					date.setTime(Long.parseLong(split[0] + STR_000_PAD));
 					tick.setTimestamp(date);
 				} catch (RuntimeException e) {
 					errors.add(new ReadError(lineNum, ReadErrorType.DATE_FORMAT));
@@ -121,14 +129,14 @@ public class YahooTickReader {
 						lineError = true;
 					}
 				}
-				prevTimestamp = tick.getTimestamp();
+				prevTimestamp = dateHelper.copy(tick.getTimestamp());
 				
 				try {
-					tick.set("close", Double.parseDouble(split[1]));
-					tick.set("high", Double.parseDouble(split[2]));
-					tick.set("low", Double.parseDouble(split[3]));
-					tick.set("open", Double.parseDouble(split[4]));
-					tick.set("volume", Double.parseDouble(split[5]));
+					tick.set(STR_CLOSE, Double.parseDouble(split[1]));
+					tick.set(STR_HIGH, Double.parseDouble(split[2]));
+					tick.set(STR_LOW, Double.parseDouble(split[3]));
+					tick.set(STR_OPEN, Double.parseDouble(split[4]));
+					tick.set(STR_VOLUME, Double.parseDouble(split[5]));
 					
 				} catch (RuntimeException e) {
 					errors.add(new ReadError(lineNum, ReadErrorType.PRICE_PARSE));
@@ -141,7 +149,7 @@ public class YahooTickReader {
 			
 				lineNum++;
 		
-			} else if (line.startsWith("volume")) {
+			} else if (line.startsWith(STR_VOLUME)) {
 				start = true;
 			}			
 		}

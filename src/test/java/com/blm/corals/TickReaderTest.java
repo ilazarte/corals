@@ -48,6 +48,7 @@ public class TickReaderTest {
 		
 		Assert.assertNotNull(daily);
 		Assert.assertEquals(0, priceData.getErrors().size());
+		Assert.assertTrue(priceData.getTicks().get(0).get("open") != null);
 	}
 	
 	@Test

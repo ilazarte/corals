@@ -65,6 +65,7 @@ public class YahooTickReader {
 			prevTimestamp = dateHelper.copy(tick.getTimestamp());
 			
 			try {
+				tick.set(STR_OPEN, Double.parseDouble(split[1]));
 				tick.set(STR_HIGH, Double.parseDouble(split[2]));
 				tick.set(STR_LOW, Double.parseDouble(split[3]));
 				tick.set(STR_CLOSE, Double.parseDouble(split[4]));

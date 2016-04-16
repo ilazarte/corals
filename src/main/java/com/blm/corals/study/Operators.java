@@ -75,20 +75,7 @@ public class Operators {
 	public List<Double> divide(List<Double> ds1, List<Double> ds2) {
 		return listlist(ds1, ds2, Operation.DIV);
 	}
-	
-	public List<Double> shift(List<Double> ds, int len) {
-		if (len < 1) {
-			throw new IllegalArgumentException("Invalid shift specified");
-		}
-		List<Double> res = new ArrayList<Double>();
-		for (int i = 0; i < len; i++) {
-			res.add(null);
-		}
-		for (int i = 0, max = ds.size() - len; i < max; i++) {
-			res.add(ds.get(i));
-		}
-		return res;
-	}
+
 	
 	/**
 	 * Retrieve the key as array.
@@ -118,13 +105,37 @@ public class Operators {
 	}
 
 	/**
+	 * Move the values across the list, padding nulls to the front.
+	 * @param ds
+	 * @param len
+	 * @return
+	 */
+	public <T> List<T> shift(List<T> ds, int len) {
+		if (len < 1) {
+			throw new IllegalArgumentException("Invalid shift specified");
+		}
+		List<T> res = new ArrayList<T>();
+		for (int i = 0; i < len; i++) {
+			res.add(null);
+		}
+		for (int i = 0, max = ds.size() - len; i < max; i++) {
+			res.add(ds.get(i));
+		}
+		return res;
+	}
+
+	/*
+	 * BEGIN: General purpose list functions.
+	 */
+	
+	/**
 	 * From a starting index, return values.
 	 * @param ds
 	 * @param start
 	 * @return
 	 */
-	public List<Double> range(List<Double> ds, int start) {
-		List<Double> res = new ArrayList<Double>();
+	public <T> List<T> range(List<T> ds, int start) {
+		List<T> res = new ArrayList<T>();
 		for (int i = 0; i < ds.size(); i++) {
 			if (i >= start) {
 				res.add(ds.get(i));
@@ -139,8 +150,8 @@ public class Operators {
 	 * @param num
 	 * @return
 	 */
-	public List<Double> first(List<Double> ds, int num) {
-		List<Double> res = new ArrayList<Double>();
+	public <T> List<T> first(List<T> ds, int num) {
+		List<T> res = new ArrayList<T>();
 		for (int i = 0; i < num; i++) {
 			res.add(ds.get(i));
 		}
@@ -153,8 +164,8 @@ public class Operators {
 	 * @param num
 	 * @return
 	 */
-	public List<Double> last(List<Double> ds, int num) {
-		List<Double> res = new ArrayList<Double>();
+	public <T> List<T> last(List<T> ds, int num) {
+		List<T> res = new ArrayList<T>();
 		int start = ds.size() - num;
 		for (int i = start; i < ds.size(); i++) {
 			res.add(ds.get(i));

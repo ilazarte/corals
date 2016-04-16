@@ -52,6 +52,26 @@ public class TickReaderTest {
 	}
 	
 	@Test
+	public void readIntradayLive() {
+
+		TestLoader tl = new TestLoader();
+		YahooPriceURL urls = new YahooPriceURL();
+		List<String> lines = tl.http(urls.intraday("AAPL"));
+		
+		PriceData priceData = yahooTickReader.intraday(lines);
+		List<Tick> ticks = priceData.getTicks();
+		
+		Assert.assertNotNull(ticks);
+		Assert.assertEquals(0, priceData.getErrors().size());
+		Assert.assertTrue(priceData.getTicks().get(0).get("open") != null);
+		
+		for (Tick tick : ticks) {
+			System.out.println("intrady: " + tick);
+		}
+		
+	}
+	
+	@Test
 	public void multithreadedDailyReadTest() throws InterruptedException, ExecutionException {
 		
 		String[] symbols = TestWatchlists.MAIN;

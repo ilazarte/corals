@@ -2,7 +2,10 @@ package com.blm.corals.study.window;
 
 import java.util.List;
 
-public class Average implements WindowFunction {
+/**
+ * TODO Migrate this to Operators or study package?  rename to DoubleAverage? Extra package seems unnecessary.  
+ */
+public class Average implements WindowFunction<Double> {
 
 	@Override
 	public Double execute(List<Double> windowValues) {
@@ -12,5 +15,4 @@ public class Average implements WindowFunction {
 		}
 		return sum / windowValues.size();
 	}
-
 }

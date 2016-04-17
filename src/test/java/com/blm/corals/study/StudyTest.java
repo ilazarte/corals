@@ -13,13 +13,13 @@ import com.blm.corals.study.window.Average;
 
 public class StudyTest {
 
+	private Operators<Double> o = Operators.doubles();
+	
 	/**
 	 * TODO assert values for correctness within sigma
 	 */
 	@Test
 	public void percentChangeTest() {
-
-		Operators o = new Operators();
 
 		List<Tick> prices = daily("GOOG");
 		List<Double> fullval = o.get(prices, "close");
@@ -45,8 +45,6 @@ public class StudyTest {
 	 */
 	@Test
 	public void simpleMovingAvgTest() {
-
-		Operators o = new Operators();
 
 		List<Tick> prices = daily("GOOG");
 		List<Double> fullval = o.get(prices, "close");

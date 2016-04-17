@@ -1,15 +1,17 @@
 package com.blm.corals.study;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.blm.corals.Tick;
 
 public class OperatorsTest {
 	
-	private Operators o = new Operators();
+	private Operators<Double> o = Operators.doubles();
 	
 	@Test
 	public void shift() {
@@ -32,6 +34,18 @@ public class OperatorsTest {
 		List<Double> div = o.divide(close, 10d);
 		
 		System.out.println(div);
+	}
+
+	@Test
+	public void nonulls() {
+		
+		List<Double> d1 = Arrays.asList(new Double[] {
+				null, null, 2d, 3d, 4d, null
+		});
+
+		Assert.assertEquals(3, o.notnull(d1, TrimType.Both).size());
+		Assert.assertEquals(4, o.notnull(d1, TrimType.Leading).size());
+		Assert.assertEquals(5, o.notnull(d1, TrimType.Trailing).size());
 	}
 	
 	public List<Tick> ticks() {

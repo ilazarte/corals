@@ -37,6 +37,39 @@ public class OperatorsTest {
 	}
 
 	@Test
+	public void last() {
+		List<Tick> ticks = ticks();
+		List<Tick> last = o.last(ticks, 5);
+		
+		Assert.assertTrue(last != null);
+		Assert.assertEquals(4, last.size());
+		
+		last = o.last(ticks, 4);
+		
+		Assert.assertTrue(last != null);
+		Assert.assertEquals(4, last.size());
+		
+		last = o.last(ticks, 3);
+		
+		Assert.assertTrue(last != null);
+		Assert.assertEquals(3, last.size());
+	}
+	
+	@Test
+	public void range() {
+		List<Tick> ticks = ticks();
+		List<Tick> range = o.range(ticks, 5);
+		
+		Assert.assertTrue(range != null);
+		Assert.assertEquals(0, range.size());
+		
+		range = o.range(ticks, 3);
+		
+		Assert.assertTrue(range != null);
+		Assert.assertEquals(1, range.size());
+	}
+	
+	@Test
 	public void nonulls() {
 		
 		List<Double> d1 = Arrays.asList(new Double[] {

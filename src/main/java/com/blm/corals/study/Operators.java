@@ -214,6 +214,7 @@ public class Operators<E> {
 	
 	/**
 	 * From a starting index, return values.
+	 * If the starting index exceeds the list size, an empty list is returned.
 	 * @param ds
 	 * @param start
 	 * @return
@@ -230,12 +231,16 @@ public class Operators<E> {
 
 	/**
 	 * First num values from the list.
+	 * If the num exceeds the list length, length is used instead.
 	 * @param ds
 	 * @param num
 	 * @return
 	 */
 	public <T> List<T> first(List<T> ds, int num) {
 		List<T> res = new ArrayList<T>();
+		if (num > ds.size()) {
+			num = ds.size();
+		}
 		for (int i = 0; i < num; i++) {
 			res.add(ds.get(i));
 		}
@@ -244,6 +249,7 @@ public class Operators<E> {
 	
 	/**
 	 * Last num values from the list.
+	 * If the num is longer than list values, starting index of 0 is used.
 	 * @param ds
 	 * @param num
 	 * @return
@@ -251,6 +257,9 @@ public class Operators<E> {
 	public <T> List<T> last(List<T> ds, int num) {
 		List<T> res = new ArrayList<T>();
 		int start = ds.size() - num;
+		if (start < 0) {
+			start = 0;
+		}
 		for (int i = start; i < ds.size(); i++) {
 			res.add(ds.get(i));
 		}
